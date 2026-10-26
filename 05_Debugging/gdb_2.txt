@@ -1,0 +1,11 @@
+set pagination off
+set $var = 0
+b range.c:18 if (++$var >= 28 && $var <= 35)
+command
+	silent
+	printf "@@@M = %d N = %d S = %d i = %d\n", M, N, S, i
+	continue
+end
+
+run
+quit

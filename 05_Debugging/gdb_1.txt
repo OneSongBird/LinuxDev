@@ -1,0 +1,10 @@
+set pagination off
+b range.c:18 if (i % 5 == 0)
+commands
+	silent
+	printf "@@@M = %d N = %d S = %d i = %d\n", M, N, S, i
+	continue
+end
+
+run
+quit
