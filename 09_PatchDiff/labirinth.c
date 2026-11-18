@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 void replace(int *reachibility, int from, int to, int cur_row, int cur_col, int N) {
     for (int i = 0; i < cur_row * N + cur_col; ++i) {
@@ -24,11 +25,9 @@ int new_group(int *labirinth, int N) {
 	}
 }
 
-int main(int argc, char *argv[]) {
-	srand(atoi(argv[1]));
-	char passage = argv[2][0];
-	char wall = argv[2][1];
-	int N = atoi(argv[3]);
+int main() {
+	srand(time(NULL));
+	int N = 6;
 	int *labirinth = (int *) malloc(sizeof(int) * 2 * N);
 	int *reachibility = (int *) malloc(sizeof(int) * N * N);
 	short *walls = (short *) malloc(sizeof(int) * N);
@@ -38,10 +37,10 @@ int main(int argc, char *argv[]) {
 	}
 	
 	// First row-wall
-	printing[0] = wall;
+	printing[0] = '#';
 	for (int i = 0; i < N; ++i) {
-        printing[2 * i + 1] = wall;
-        printing[2 * (i + 1)] = wall;
+        printing[2 * i + 1] = '#';
+        printing[2 * (i + 1)] = '#';
     }
 	
 	for (int iter = 0; iter < N; ++iter) {
@@ -53,24 +52,24 @@ int main(int argc, char *argv[]) {
 		
 		// Merge elements in the row
         int cur_pos = (2 * iter + 1) * (2 * N + 1);
-		printing[cur_pos] = wall;
+		printing[cur_pos] = '#';
 		for (int i = 0; i < N - 1; ++i) {
-			printing[cur_pos + (2 * i) + 1] = passage;
+			printing[cur_pos + (2 * i) + 1] = '.';
 			if (labirinth[i] == labirinth[i+1]) {
-				printing[cur_pos + 2 * (i + 1)] = wall;
+				printing[cur_pos + 2 * (i + 1)] = '#';
 				labirinth[i] = new_group(labirinth, N);
 				continue;
 			}
 			if (rand() % 2) {
-				printing[cur_pos + 2 * (i + 1)] = wall;
+				printing[cur_pos + 2 * (i + 1)] = '#';
 			}
 			else {
-				printing[cur_pos + 2 * (i + 1)] = passage;
+				printing[cur_pos + 2 * (i + 1)] = '.';
 				labirinth[i+1] = labirinth[i];
 			}
 		}
-        printing[cur_pos + 2 * N - 1] = passage;
-        printing[cur_pos + 2 * N] = wall;
+        printing[cur_pos + 2 * N - 1] = '.';
+        printing[cur_pos + 2 * N] = '#';
 		
         for (int i = 0; i < N; ++i) {
             reachibility[iter * N + i] = labirinth[i];
@@ -113,24 +112,24 @@ int main(int argc, char *argv[]) {
 		// Wall between
 		if (iter != N - 1) {
             cur_pos = 2 * (iter + 1) * (2 * N + 1);
-			printing[cur_pos] = wall;
+			printing[cur_pos] = '#';
 			for (int i = 0; i < N; ++i) {
 				if (labirinth[i] == labirinth[N + i]) {
-					printing[cur_pos + 2 * i + 1] = passage;
+					printing[cur_pos + 2 * i + 1] = '.';
 					walls[i] = 0;
 				}
 				else {
-					printing[cur_pos + 2 * i + 1] = wall;
+					printing[cur_pos + 2 * i + 1] = '#';
 					walls[i] = 1;
 				}
-				printing[cur_pos + 2 * (i + 1)] = wall;
+				printing[cur_pos + 2 * (i + 1)] = '#';
 			}
 		}
 		else {
-			printing[2 * N * (2 * N + 1)] = wall;
+			printing[2 * N * (2 * N + 1)] = '#';
 			for (int i = 0; i < N; ++i) {
-				printing[2 * N * (2 * N + 1) + 2 * i + 1] = wall;
-                printing[2 * N * (2 * N + 1) + 2 * (i + 1)] = wall;
+				printing[2 * N * (2 * N + 1) + 2 * i + 1] = '#';
+                printing[2 * N * (2 * N + 1) + 2 * (i + 1)] = '#';
             }
 		}
 		
@@ -143,16 +142,16 @@ int main(int argc, char *argv[]) {
     for (int i = 0; i < N - 1; ++i) {
         for (int j = 0; j < N - 1; ++j) {
             if (reachibility[i * N + j] != reachibility[(i + 1) * N + j]) {
-                printing[(2 * N + 1) * 2 * (i + 1) + 2 * j + 1] = passage;
+                printing[(2 * N + 1) * 2 * (i + 1) + 2 * j + 1] = '.';
                 replace(reachibility, reachibility[(i + 1) * N + j], reachibility[i * N + j], N, 0, N);
             }
             if (reachibility[i * N + j] != reachibility[i * N + j + 1]) {
-                printing[(2 * N + 1) * (2 * i + 1) + 2 * (j + 1)] = passage;
+                printing[(2 * N + 1) * (2 * i + 1) + 2 * (j + 1)] = '.';
                 replace(reachibility, reachibility[i * N + j + 1], reachibility[i * N + j], N, 0, N);
             }
         }
         if (reachibility[i * N + N - 1] != reachibility[(i + 1) * N +  N - 1]) {
-            printing[(2 * N + 1) * 2 * (i + 1) + 2 * (N - 1) + 1] = passage;
+            printing[(2 * N + 1) * 2 * (i + 1) + 2 * (N - 1) + 1] = '.';
             replace(reachibility, reachibility[(i + 1) * N +  N - 1], reachibility[i * N + N - 1], N, 0, N);
         }
     }

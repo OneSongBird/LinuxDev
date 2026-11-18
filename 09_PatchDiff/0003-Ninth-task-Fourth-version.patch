@@ -1,0 +1,38 @@
+From 2fdb524f23d7b90012214d94258c98e817a081f4 Mon Sep 17 00:00:00 2001
+From: OneSongBird <eliza.pevts721@yandex.ru>
+Date: Wed, 18 Nov 2026 16:02:49 +0300
+Subject: [PATCH 3/3] Ninth task: Fourth version
+
+---
+ 09_PatchDiff/labirinth.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
+
+diff --git a/09_PatchDiff/labirinth.c b/09_PatchDiff/labirinth.c
+index 3e82714..c8d9142 100644
+--- a/09_PatchDiff/labirinth.c
++++ b/09_PatchDiff/labirinth.c
+@@ -1,6 +1,5 @@
+ #include <stdio.h>
+ #include <stdlib.h>
+-#include <time.h>
+ 
+ void replace(int *reachibility, int from, int to, int cur_row, int cur_col, int N) {
+     for (int i = 0; i < cur_row * N + cur_col; ++i) {
+@@ -26,10 +25,10 @@ int new_group(int *labirinth, int N) {
+ }
+ 
+ int main(int argc, char *argv[]) {
+-	srand(time(NULL));
+-	char passage = argv[1][0];
+-	char wall = argv[1][1];
+-	int N = atoi(argv[2]);
++	srand(atoi(argv[1]));
++	char passage = argv[2][0];
++	char wall = argv[2][1];
++	int N = atoi(argv[3]);
+ 	int *labirinth = (int *) malloc(sizeof(int) * 2 * N);
+ 	int *reachibility = (int *) malloc(sizeof(int) * N * N);
+ 	short *walls = (short *) malloc(sizeof(int) * N);
+-- 
+2.50.1
+
