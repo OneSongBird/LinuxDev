@@ -25,9 +25,9 @@ int new_group(int *labirinth, int N) {
 	}
 }
 
-int main() {
+int main(int argc, char *argv[]) {
 	srand(time(NULL));
-	int N = 6;
+	int N = atoi(argv[1]);
 	int *labirinth = (int *) malloc(sizeof(int) * 2 * N);
 	int *reachibility = (int *) malloc(sizeof(int) * N * N);
 	short *walls = (short *) malloc(sizeof(int) * N);
