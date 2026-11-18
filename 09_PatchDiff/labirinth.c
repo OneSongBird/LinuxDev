@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 
 void replace(int *reachibility, int from, int to, int cur_row, int cur_col, int N) {
     for (int i = 0; i < cur_row * N + cur_col; ++i) {
@@ -26,10 +25,10 @@ int new_group(int *labirinth, int N) {
 }
 
 int main(int argc, char *argv[]) {
-	srand(time(NULL));
-	char passage = argv[1][0];
-	char wall = argv[1][1];
-	int N = atoi(argv[2]);
+	srand(atoi(argv[1]));
+	char passage = argv[2][0];
+	char wall = argv[2][1];
+	int N = atoi(argv[3]);
 	int *labirinth = (int *) malloc(sizeof(int) * 2 * N);
 	int *reachibility = (int *) malloc(sizeof(int) * N * N);
 	short *walls = (short *) malloc(sizeof(int) * N);
